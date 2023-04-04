@@ -32,5 +32,6 @@ module "eks" {
   }
   tags = {
     "karpenter.sh/discovery" = "my-cluster"
+    "Created-By"             = "Vedant"
   }
 }
