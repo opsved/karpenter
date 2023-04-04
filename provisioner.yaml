@@ -1,0 +1,28 @@
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: default
+spec:
+  ttlSecondsAfterEmpty: 10
+  # ttlSecondsUntilExpired: 10
+  # consolidation:
+    # enabled: true
+  requirements:
+    - key: karpenter.k8s.aws/instance-category
+      operator: In
+      values: [t]
+    - key: karpenter.k8s.aws/instance-generation
+      operator: Gt
+      values: ["2"]
+  providerRef:
+    name: default
+---
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: default
+spec:
+  subnetSelector:
+    karpenter.sh/discovery: "my-cluster-private"
+  securityGroupSelector:
+    Name: "my-cluster-node"
